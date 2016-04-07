@@ -29,6 +29,7 @@ public:
     vector<int> SelectLengthOptions(vector<Position> opts);
 
 
+    bool isInTable(Position p);
 
 };
 

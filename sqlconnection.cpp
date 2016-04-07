@@ -55,13 +55,12 @@ void SQLconnection::InsertIntoPostition(Position & position){
 
     string pos = position.toString();
     string posReverse = position.toString();
-    reverse(posReverse.begin(), pos.end());
+    reverse(posReverse.begin(), posReverse.end());
 
     string sql =   "INSERT OR REPLACE INTO POSITIONS (ID, POSITION, GRUNDY) VALUES ( (select ID from POSITIONS where (POSITION = '"+ pos +"' and POSITION = '" + posReverse +"')), '"  + pos + "', NULL, NULL );";
 
     rc = sqlite3_exec(db, sql.c_str(), callback, (void*)data, &zErrMsg);
     cout << "Inserted position " << position << endl;
-
 }
 
 void SQLconnection::InsertIntoPostition(Position position, int grundy, int length){
@@ -153,7 +152,7 @@ vector<int> SQLconnection::SelectLengthOptions(vector<Position> opts){
     }
     sql += " and length NOT NULL ORDER BY length;";
 
-    sqlite3_stmt * stmt;
+    sqlite3_stmt* stmt;
 
     rc = sqlite3_prepare(db, sql.c_str(), -1, &stmt, NULL);
 
@@ -163,4 +162,26 @@ vector<int> SQLconnection::SelectLengthOptions(vector<Position> opts){
     }
     sqlite3_finalize(stmt);
     return values;
+}
+
+bool SQLconnection::isInTable(Position position){
+    string pos = position.toString();
+    string posReverse = position.toString();
+    reverse(posReverse.begin(), posReverse.end());
+
+
+    string sql =  "select count(*) from positions where position = '" + pos + "'  or position = '" + posReverse + "';";
+
+
+    sqlite3_stmt* stmt;
+    rc = sqlite3_prepare(db, sql.c_str(), -1, &stmt, NULL);
+
+    int val = 0;
+
+
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        val = sqlite3_column_int(stmt, 0);
+    }
+    sqlite3_finalize(stmt);
+    return (val != 0);
 }

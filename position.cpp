@@ -5,6 +5,7 @@
 #include "circulardoublylinkedlist.h"
 #include <vector>
 #include <algorithm>
+#include <string>
 using namespace std;
 
 
@@ -141,6 +142,15 @@ string Position::toString() const {
         }
     }
     return oss.str();
+}
+
+std::string Position::reverseString() {
+    string reverse = "";
+    string s = toString();
+    for(int i = 0; i <= s.length(); ++i){
+        reverse = s[i] + reverse;
+    }
+    return reverse;
 }
 
 vector<int> Position::getVector()  const {

@@ -37,6 +37,7 @@ public:
     vector<Position> Options() const;
 
     string toString(void) const;
+    string reverseString();
 
     vector<int>  getVector() const;
     int get_k() const;

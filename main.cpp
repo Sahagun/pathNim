@@ -56,6 +56,28 @@ int main1(){
     cout << pos.sum();
 }
 
+int main2(){
+    vector<int> p;
+    p.push_back(0);
+    p.push_back(0);
+    p.push_back(1);
+    p.push_back(1);
+    Position pos(p,2,100);
+
+//    cout << pos << endl;
+//    cout << posReverse << endl;
+
+
+    stringstream nameStream;
+    nameStream << "PN(" << 4 << ", " << 2 << ")";
+    string name = nameStream.str();
+
+    SQLconnection data (name);
+
+    cout << data.isInTable(pos) << endl;
+
+}
+
 int main(){
     int max;
     int n;
@@ -81,9 +103,10 @@ int main(){
     Position p (n, k, max);
 
     while(!p.IsMax()){
-        calcGrundy(data, p);
+        if(!data.isInTable(p)){
+            calcGrundy(data, p);
+        }
         p.Increment();
-
     }
     calcGrundy(data, p);
 
